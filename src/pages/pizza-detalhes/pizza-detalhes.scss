@@ -1,0 +1,89 @@
+page-pizza-detalhes,
+.offer {
+
+  ion-slides {
+    height: auto;
+
+    .swiper-container {
+      padding-bottom: 20px;
+
+      .card {
+        margin: 1em;
+
+        .full-image {
+          width: 100%;
+          height: auto;
+        }
+      }
+
+      .swiper-pagination {
+        bottom: 0;
+
+        .swiper-pagination-bullet-active {
+          background: color($colors, primary);
+        }
+      }
+
+      .offer-label {
+        position: absolute;
+        top: 0;
+        right: 10px;
+
+        .square {
+          display: block;
+          width: 40px;
+          line-height: 36px;
+          font-size: 1em;
+          background: color($colors, primary);;
+        }
+
+        i.triangle {
+          display: block;
+          width: 0;
+          height: 0;
+          border-left: 20px solid transparent;
+          border-right: 20px solid transparent;
+          border-top: 20px solid color($colors, primary);
+        }
+      }
+    }
+  }
+}
+
+.offer-footer {
+  border-top: 1px solid color($colors, border-color);
+
+}
+
+.cover {
+    position: relative;
+
+    img {
+      display: block;
+    }
+
+    .slider-pager {
+      bottom: 45px;
+
+      .slider-pager-page.active {
+        color: color($colors, light);
+      }
+    }
+
+    .overlay {
+      bottom: 0;
+      padding: 10px;
+      position: absolute;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1;
+
+      .pull-left {
+        line-height: 1.2em;
+      }
+
+      .price {
+        font-size: 1.2em;
+      }
+    }
+  }

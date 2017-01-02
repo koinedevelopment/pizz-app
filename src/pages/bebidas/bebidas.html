@@ -1,0 +1,38 @@
+<!--
+  Generated template for the Salgadas page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{qrcode.pizzariaNome}} - {{qrcode.numeroMesa}}</ion-title>
+    <ion-buttons end>
+      <button ion-button>
+        <ion-icon name="md-more"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content no-padding>
+  <ion-list>
+    <ion-item *ngFor="let sabor of sabores | async">
+      <ion-avatar item-left (click)="exibirDetalhes(sabor)">
+        <img src="{{sabor.imageURL}}">
+      </ion-avatar>
+      <h2 (click)="exibirDetalhes(sabor)">{{sabor.descricao}}</h2>
+      <p (click)="exibirDetalhes(sabor)">{{sabor.ingredientes}}</p>
+      <button ion-button clear item-right icon-left (click)="confirmacaoPedido(sabor.descricao)">
+        <ion-icon name='send'></ion-icon>
+        Pedir
+      </button>
+    </ion-item>
+  </ion-list>
+</ion-content>
