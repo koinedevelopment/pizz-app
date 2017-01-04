@@ -64,7 +64,8 @@ export class DocesPage {
       pizzariaNome: this.qrcode.pizzariaNome,
       pizzariaKey: this.qrcode.pizzariaID, 
       sabor: sabor,
-      timestamp: new Date().getTime()
+      timestamp: new Date().getTime(),
+      atendido: false
     });
     this.presentToast();
   }
