@@ -32,19 +32,20 @@
     "zone.js": "0.6.26"
   },
   "devDependencies": {
-    "@ionic/app-scripts": "0.0.47",
+    "@ionic/app-scripts": "0.0.48",
     "@types/jasmine": "^2.5.38",
     "@types/request": "0.0.36",
     "typescript": "2.0.9"
   },
   "description": "ionic2_restaurant: An Ionic project",
   "cordovaPlugins": [
-    "cordova-plugin-device",
+    "cordova-plugin-compat",
     "cordova-plugin-console",
-    "cordova-plugin-whitelist",
+    "cordova-plugin-device",
+    "cordova-plugin-googleplus",
     "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
-    "ionic-plugin-keyboard"
+    "cordova-plugin-whitelist"
   ],
   "cordovaPlatforms": []
 }
