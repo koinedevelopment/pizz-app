@@ -71,7 +71,6 @@ export class SalgadasPage {
       pizzariaNome: this.qrcode.pizzariaNome,
       pizzariaKey: this.qrcode.pizzariaID,
       sabor: sabor,
-      data: new Date().toString(),
       timestamp: new Date().getTime()
     });
     this.presentToast();

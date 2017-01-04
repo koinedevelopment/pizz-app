@@ -51,7 +51,7 @@ export class QrcodePage {
         mesas.on('value', snap =>{
           if(snap.val() != null){
             this._qrcode = {
-                    numeroMesa: snap.val().identificacao,
+                    numeroMesa: snap.val().numeroMesa,
                     pizzariaID: values[0],
                     pizzariaNome: snap.val().pizzariaNome
                   };

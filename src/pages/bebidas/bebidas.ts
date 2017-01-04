@@ -60,11 +60,10 @@ export class BebidasPage {
   darUmPizz(sabor:any){
     this.pedidos.push({
       usuario:this.user.displayName,
-      mesa: this.qrcode.numeroMesa,
+      numeroMesa: this.qrcode.numeroMesa,
       pizzariaNome: this.qrcode.pizzariaNome,
       pizzariaKey: this.qrcode.pizzariaID, 
       sabor: sabor,
-      data: new Date().toString(),
       timestamp: new Date().getTime()
     });
     this.presentToast();
