@@ -2,7 +2,7 @@ import { QrCode } from './../../model/qrcode';
 import { FirebaseListObservable, AngularFire } from 'angularfire2';
 import { CardapioPage } from './../cardapio/cardapio';
 import { Component, NgZone } from '@angular/core';
-import { NavController, AlertController } from 'ionic-angular';
+import { NavController, AlertController, LoadingController } from 'ionic-angular';
 import { BarcodeScanner } from 'ionic-native';
 import localForage from "localforage";
 import * as firebase from 'firebase';
@@ -22,10 +22,10 @@ export class QrcodePage {
   qrcode = new QrCode();
   _qrcode = {};
   user;
+  loader;
 
   constructor(public nav: NavController, public alertCtrl:AlertController, 
-              public zone: NgZone, public af: AngularFire) {       
-    //this.mesas = af.database.list('/mesas', { preserveSnapshot: true});
+              public zone: NgZone, public af: AngularFire, public loadingCtrl: LoadingController) {       
   }
 
   ionViewDidLoad() {
@@ -41,18 +41,23 @@ export class QrcodePage {
   
   scannear(){
     BarcodeScanner.scan().then((barcodeData) => {
-      if(barcodeData.text != null && barcodeData.text !== ""){   
+      if(barcodeData.text != null && barcodeData.text !== ""){ 
+        this.loader = this.loadingCtrl.create({
+          content: "Localizando Mesa",
+        });
+        this.loader.present();  
         let values = barcodeData.text.split('|');
-        let mesas = firebase.database().ref('/mesasPorRestaurante/'+values[0]+'/'+values[1]);
+        let mesas = firebase.database().ref('/mesasPorPizzaria/'+values[0]+'/'+values[1]);
         mesas.on('value', snap =>{
           if(snap.val() != null){
             this._qrcode = {
-                    numeroMesa: snap.val().numero,
+                    numeroMesa: snap.val().identificacao,
                     pizzariaID: values[0],
                     pizzariaNome: snap.val().pizzariaNome
                   };
             this.qrcode = this._qrcode;
             localForage.setItem('qrcode', this.qrcode).then(result => {
+                    this.loader.dismiss();
                     this.zone.run(() => {
                         this.nav.setRoot(CardapioPage);
                     });
@@ -61,10 +66,8 @@ export class QrcodePage {
                   })
           }
           else{
+            this.loader.dismiss();
             alert('Código inválido. Procurar a administração da pizzaria.');
-            /*localForage.setItem('qrcode', "").then(result => {
-            }, error => {
-            })*/
           }
         });
       }

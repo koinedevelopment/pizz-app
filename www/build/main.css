@@ -39972,7 +39972,7 @@ img.profile-picture {
 
 .profile-cover {
   padding-top: 1em;
-  min-height: 160px;
+  min-height: 100px;
   background: url("../assets/img/bg.jpg") no-repeat center;
   background-size: 100% auto;
 }
@@ -39988,6 +39988,12 @@ ion-label[stacked] {
 
 ion-slides[pager] .swiper-pagination {
   display: block !important;
+}
+
+page-bebidas,
+ion-spinner {
+  display: block;
+  margin: auto;
 }
 
 page-cart .card,
@@ -40184,6 +40190,12 @@ page-chat-detail .bar-footer .footer-btn-wrap,
 page-chat-detail .bar-footer .footer-btn-wrap .button-icon:before,
 .chat-detail .bar-footer .footer-btn-wrap .button-icon:before {
   font-size: 1.5em;
+}
+
+page-doces,
+ion-spinner {
+  display: block;
+  margin: auto;
 }
 
 page-favorite .price,
@@ -40411,4 +40423,10 @@ page-qrcode img.qr-code {
   margin-left: auto;
   margin-right: auto;
   display: block;
+}
+
+page-salgadas,
+ion-spinner {
+  display: block;
+  margin: auto;
 }

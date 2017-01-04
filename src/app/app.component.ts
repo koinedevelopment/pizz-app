@@ -46,6 +46,13 @@ export class MyApp {
     },
 
     {
+      title: 'Minha Conta',
+      icon: 'ios-person-outline',
+      count: 0,
+      component: UserPage
+    }
+
+    /*{
       title: 'Configurações',
       icon: 'ios-settings-outline',
       count: 0,
@@ -63,7 +70,7 @@ export class MyApp {
       title: 'Sair',
       icon: 'ios-exit-outline',
       count: 0,
-    },
+    },*/
     // import menu
 
 
@@ -113,8 +120,8 @@ export class MyApp {
     }, error => {
       console.log('error logout: '+error);
     })
-
-}
+  }
+  
 }
 
 

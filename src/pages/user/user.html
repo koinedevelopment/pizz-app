@@ -10,7 +10,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>User</ion-title>
+    <ion-title>Minha Conta</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -21,10 +21,10 @@
     <ion-grid>
       <ion-row>
         <ion-col width-33 text-center>
-          <img class="profile-picture circle" src="assets/img/people/max.png">
+          <img class="profile-picture circle" src="{{user.photoURL}}">
         </ion-col>
         <ion-col width-66>
-          <h4 padding no-margin color="light">Adam Lambert</h4>
+          <h4 padding no-margin color="light">{{user.displayName}}</h4>
 
         </ion-col>
       </ion-row>
@@ -32,43 +32,58 @@
   </div>
 
   <!-- User information -->
-  <ion-list class="list-full-border">
+  <ion-list class="list-full-border" margin-bottom>
 
     <ion-item>
-      <ion-label stacked color="primary">Name</ion-label>
-      <ion-input type="text" value="John Smith"></ion-input>
+      <ion-label stacked color="primary">Nome</ion-label>
+      <ion-input type="text" value="{{user.displayName}}" [disabled]="true"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label stacked color="primary">Phone</ion-label>
-      <ion-input type="text" value="+849123456789"></ion-input>
+      <ion-label stacked color="primary">Telefone</ion-label>
+      <ion-input type="text" value="{{user.telefone}}"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label stacked color="primary">Email</ion-label>
-      <ion-input type="text" value="successdt@hotmail.com"></ion-input>
+      <ion-input type="text" value="{{user.email}}" [disabled]="true"></ion-input>
     </ion-item>
 
-    <ion-item>
-      <ion-label stacked color="primary">Password</ion-label>
-      <ion-input type="password" value="123456"></ion-input>
-    </ion-item>
+    <!--ion-item>
+      <ion-label stacked color="primary">Senha</ion-label>
+      <ion-input type="password" value=""></ion-input>
+    </ion-item-->
 
   </ion-list>
+
+  <div margin-top>
+      <button ion-button clear item-right icon-left block>
+        <ion-icon name='ios-key-outline'></ion-icon>
+        Alterar Senha
+      </button>
+  </div> 
+
+  <div margin-top>
+      <button ion-button clear item-right icon-left block (click)="confirmacaoLogout()">
+        <ion-icon name='ios-log-out-outline'></ion-icon>
+        Desconectar
+      </button>
+  </div>
+
 </ion-content>
 
 <!--bottom buttons-->
 <ion-footer>
   <ion-grid no-padding>
     <ion-row class="item-button-group" no-padding>
-      <ion-col no-padding>
+      <!--ion-col no-padding>
         <button ion-button block color="gray">
-          Cancel
+          Voltar
         </button>
-      </ion-col>
-      <ion-col no-padding>
+      </ion-col-->
+      <ion-col padding>
         <button ion-button block>
-          Save
+          Salvar
         </button>
       </ion-col>
     </ion-row>

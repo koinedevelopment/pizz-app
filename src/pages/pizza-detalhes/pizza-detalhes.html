@@ -10,7 +10,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Pizza Detalhes</ion-title>
+    <ion-title>{{dataService.sabor.descricao}}</ion-title>
     <ion-buttons end>
       <button ion-button>
         <ion-icon name="md-more"></ion-icon>
@@ -35,12 +35,12 @@
 </ion-content>
 
 <!--Footer button-->
-<ion-footer class="offer-footer">
+<!--ion-footer class="offer-footer"-->
+<ion-footer>
   <ion-grid no-padding>
     <ion-row class="item-button-group" no-padding>
-      <ion-col no-padding>
-        <button ion-button block icon-left>
-          <ion-icon class="text-2x" name="send"></ion-icon>
+      <ion-col padding>
+        <button ion-button block>
           PEDIR
         </button>
       </ion-col>

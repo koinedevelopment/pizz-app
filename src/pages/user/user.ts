@@ -1,5 +1,9 @@
+import { LoginPage } from './../login/login';
+import { FireService } from './../../services/fire-service';
+import { User } from './../../model/user';
 import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import { NavController, AlertController } from 'ionic-angular';
+import * as firebase from 'firebase';
 
 
 /*
@@ -14,6 +18,42 @@ import {NavController} from 'ionic-angular';
 })
 export class UserPage {
 
-  constructor(public nav: NavController) {
+  user: User = new User();
+
+  constructor(public nav: NavController, public fire: FireService, public alertCtrl: AlertController) {
+    firebase.auth().onAuthStateChanged(result =>{
+      if(result){
+        this.user = result;
+      }
+    })
+  }
+
+  logout(){
+    this.fire.logout().then(data => { 
+      this.nav.setRoot(LoginPage);
+    }, error => {
+      console.log('error logout: '+error);
+    })
+  }
+
+  confirmacaoLogout(sabor:any) {
+    let confirm = this.alertCtrl.create({
+      title: 'Logout',
+      message: 'Deseja mesmo desconectar da conta?',
+      buttons: [
+        {
+          text: 'Não',
+          handler: () => {
+          }
+        },
+        {
+          text: 'Sim',
+          handler: () => {
+            this.logout();
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 }

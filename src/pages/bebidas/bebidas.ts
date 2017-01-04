@@ -24,6 +24,7 @@ export class BebidasPage {
   sabores: FirebaseListObservable<any>;
   pedidos: FirebaseListObservable<any>; 
   user: User = new User();
+  loading = true;
   
   constructor(public nav: NavController, af: AngularFire, public alertCtrl: AlertController,
               public toastCtrl: ToastController, public dataService: DataService) {
@@ -32,7 +33,7 @@ export class BebidasPage {
       
       this.qrcode = result;
 
-      this.pedidos = af.database.list('/pedidos');
+      this.pedidos = af.database.list('/pedidosPorPizzaria/'+this.qrcode.pizzariaID); 
     
       this.sabores = af.database.list('saboresPorPizzaria/'+this.qrcode.pizzariaID+'/sabores', {
         query: {
@@ -40,6 +41,7 @@ export class BebidasPage {
           equalTo: 'true_bebida',
           }
       });
+      this.sabores.subscribe(() => this.loading = false);
 
     }, error => {
       console.log('getItem: '+error);
@@ -53,7 +55,6 @@ export class BebidasPage {
   }
 
   ionViewDidLoad() {
-    console.log('Hello BebidasPage Page');
   }
 
   darUmPizz(sabor:any){
@@ -61,9 +62,10 @@ export class BebidasPage {
       usuario:this.user.displayName,
       mesa: this.qrcode.numeroMesa,
       pizzariaNome: this.qrcode.pizzariaNome,
-      pizzariaID: this.qrcode.pizzariaID, 
+      pizzariaKey: this.qrcode.pizzariaID, 
       sabor: sabor,
-      data: new Date().toString()
+      data: new Date().toString(),
+      timestamp: new Date().getTime()
     });
     this.presentToast();
   }
@@ -98,11 +100,15 @@ export class BebidasPage {
   }
 
   exibirDetalhes(sabor: any){
+    let imagem = sabor.imageURL;
+    if(sabor.imageURL == null || sabor.imageURL == ""){
+      imagem = "assets/img/sem-foto.jpg";
+    }
     let _sabor = {
         descricao: sabor.descricao,
         tipo: sabor.tipo,
         ingredientes: sabor.ingredientes,
-        imageURL: sabor.imageURL
+        imageURL: imagem
     };
     this.dataService.sabor = _sabor;
     this.nav.push(PizzaDetalhesPage);
