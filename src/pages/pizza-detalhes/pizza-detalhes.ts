@@ -1,6 +1,8 @@
+import { FirebaseListObservable, AngularFire } from 'angularfire2';
+import { CardapioPage } from './../cardapio/cardapio';
 import { DataService } from './../../services/data-service';
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { Component, NgZone } from '@angular/core';
+import { NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 
 /*
   Generated class for the PizzaDetalhes page.
@@ -14,12 +16,59 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class PizzaDetalhesPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public dataService: DataService) {
+  pedidos: FirebaseListObservable<any>; 
+
+  constructor(public nav: NavController, public navParams: NavParams, public dataService: DataService,
+              public zone: NgZone, public alertCtrl: AlertController, public af: AngularFire, public toastCtrl: ToastController) {
+
+    this.pedidos = af.database.list('/pedidosPorPizzaria/'+this.dataService.pizzariaID);  
   }
 
   ionViewDidLoad() {
-    //console.log('ionViewDidLoad PizzaDetalhesPage');
-    //console.log('dataService-PizzaDetalhesPage: '+this.dataService.sabor.descricao);
   }
 
+  darUmPizz(sabor:any){
+    this.pedidos.push({
+      usuario:this.dataService.displayName,
+      numeroMesa: this.dataService.numeroMesa,
+      pizzariaNome: this.dataService.pizzariaNome,
+      pizzariaKey: this.dataService.pizzariaID,
+      sabor: sabor,
+      timestamp: new Date().getTime(),
+      atendido: false
+    });
+    this.zone.run(() => {
+        this.nav.setRoot(CardapioPage);
+    });
+    this.presentToast();
+  }
+
+  confirmacaoPedido(sabor:any) {
+    let confirm = this.alertCtrl.create({
+      title: 'Confirmação da Solicitação',
+      message: 'Confirma o pedido de '+sabor+' ?',
+      buttons: [
+        {
+          text: 'Não',
+          handler: () => {
+          }
+        },
+        {
+          text: 'Sim',
+          handler: () => {
+            this.darUmPizz(sabor);
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+  presentToast() {
+    let toast = this.toastCtrl.create({
+      message: 'Pedido enviado.',
+      duration: 3000
+    });
+    toast.present();
+  }
 }

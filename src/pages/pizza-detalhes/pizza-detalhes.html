@@ -40,22 +40,10 @@
   <ion-grid no-padding>
     <ion-row class="item-button-group" no-padding>
       <ion-col padding>
-        <button ion-button block>
+        <button ion-button block (click)="confirmacaoPedido(dataService.sabor.descricao)">
           PEDIR
         </button>
       </ion-col>
-      <!--ion-col no-padding>
-        <button ion-button block color="gray" icon-left>
-          <ion-icon class="text-2x" name="star"></ion-icon>
-          ADD AOS FAVORITOS
-        </button>
-      </ion-col>
-      <ion-col no-padding>
-        <button ion-button block icon-left>
-          <ion-icon class="text-2x" name="send"></ion-icon>
-          PEDIR
-        </button>
-      </ion-col-->
     </ion-row>
   </ion-grid>
 </ion-footer>

@@ -23,33 +23,17 @@ export class LoginPage {
  
   constructor(public nav: NavController, public fire: FireService, public events: Events,
               public loadingCtrl: LoadingController, public alertCtrl: AlertController,
-              public storage:Storage) {
-        this.events.subscribe('login-event', user =>{
-          //this.user = user[0];
-          //this.loader.dismiss();   
-          //this.navCtrl.setRoot(HomePage);
-        })                 
+              public storage:Storage) {               
   }
 
   ionViewDidLoad() {
-    /*firebase.auth().onAuthStateChanged(result =>{
-      if(result){
-        console.log('logado');
-      }
-      else{
-        console.log('não logado');
-      }
-    })*/
   }  
 
-  // go to register page
   register() {
     this.nav.push(RegisterPage);
   }
 
-  // login and go to home page
   login() {
-    //this.nav.setRoot(QrcodePage);
   }
 
   loginWithFacebook(){

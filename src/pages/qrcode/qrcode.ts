@@ -25,18 +25,19 @@ export class QrcodePage {
   loader;
 
   constructor(public nav: NavController, public alertCtrl:AlertController, 
-              public zone: NgZone, public af: AngularFire, public loadingCtrl: LoadingController) {       
+              public zone: NgZone, public af: AngularFire, public loadingCtrl: LoadingController) {   
+      localForage.getItem('qrcode').then(result => {
+        this.qrcode = result;
+        if(this.qrcode != null && this.qrcode !== ""){
+          this.showConfirm();
+        }
+      }, error => {
+        console.log('getItem: '+error);
+      })  
   }
 
-  ionViewDidLoad() {
-    localForage.getItem('qrcode').then(result => {
-      this.qrcode = result;
-      if(this.qrcode != null && this.qrcode !== ""){
-        this.showConfirm();
-      }
-    }, error => {
-      console.log('getItem: '+error);
-    })    
+  ionViewDidLoad() {     
+    
   }
   
   scannear(){

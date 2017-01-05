@@ -117,6 +117,10 @@ export class SalgadasPage {
         ingredientes: sabor.ingredientes,
         imageURL: imagem
     };
+    this.dataService.displayName = this.user.displayName;
+    this.dataService.numeroMesa = this.qrcode.numeroMesa;
+    this.dataService.pizzariaID = this.qrcode.pizzariaID;
+    this.dataService.pizzariaNome = this.qrcode.pizzariaNome;
     this.dataService.sabor = _sabor;
     this.nav.push(PizzaDetalhesPage);
   }
