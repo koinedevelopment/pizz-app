@@ -21,7 +21,9 @@
 </ion-header>
 
 <ion-content no-padding>
-  <ion-spinner name="bubbles" *ngIf='loading'></ion-spinner>
+  <div class="center-spinner" *ngIf='loading'>
+    <ion-spinner name="bubbles"></ion-spinner>
+  </div>
   <ion-list>
     <ion-item *ngFor="let sabor of sabores | async">
       <ion-avatar item-left (click)="exibirDetalhes(sabor)">

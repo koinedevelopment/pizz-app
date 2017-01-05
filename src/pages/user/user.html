@@ -19,20 +19,19 @@
   <!-- Cover and profile picture -->
   <div class="profile-cover">
     <ion-grid>
-      <ion-row>
+      <ion-row class="center-item">
         <ion-col width-33 text-center>
-          <img class="profile-picture circle" src="{{user.photoURL}}">
+          <img no-margin class="profile-picture circle" src="{{user.photoURL}}">
         </ion-col>
-        <ion-col width-66>
+        <ion-col width-66 text-center>
           <h4 padding no-margin color="light">{{user.displayName}}</h4>
-
         </ion-col>
       </ion-row>
     </ion-grid>
   </div>
 
   <!-- User information -->
-  <ion-list class="list-full-border" margin-bottom>
+  <ion-list class="list-full-border">
 
     <ion-item>
       <ion-label stacked color="primary">Nome</ion-label>
@@ -56,20 +55,17 @@
 
   </ion-list>
 
-  <div margin-top>
+  <div margin-top class="botoes">
       <button ion-button clear item-right icon-left block>
         <ion-icon name='ios-key-outline'></ion-icon>
         Alterar Senha
       </button>
-  </div> 
 
-  <div margin-top>
-      <button ion-button clear item-right icon-left block (click)="confirmacaoLogout()">
+      <button ion-button clear item-right icon-left block (click)="confirmacaoLogout()" class="botao">
         <ion-icon name='ios-log-out-outline'></ion-icon>
         Desconectar
       </button>
-  </div>
-
+  </div> 
 </ion-content>
 
 <!--bottom buttons-->
