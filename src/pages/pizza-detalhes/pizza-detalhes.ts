@@ -37,9 +37,9 @@ export class PizzaDetalhesPage {
       timestamp: new Date().getTime(),
       atendido: false
     });
-    this.zone.run(() => {
+    /*this.zone.run(() => {
         this.nav.setRoot(CardapioPage);
-    });
+    });*/
     this.presentToast();
   }
 

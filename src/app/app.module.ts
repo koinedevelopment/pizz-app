@@ -81,7 +81,7 @@ export const firebaseConfig = {
     IonicModule.forRoot(MyApp, {
       scrollAssist: false,
       autoFocusAssist: false,
-      //tabsPlacement: 'top',
+      tabsPlacement: 'top',
       tabsHideOnSubPages: true
     }),
     AngularFireModule.initializeApp(firebaseConfig)
