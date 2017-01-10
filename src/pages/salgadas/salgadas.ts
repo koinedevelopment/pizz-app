@@ -22,11 +22,13 @@ import * as firebase from 'firebase';
 export class SalgadasPage {
 
   qrcode = new QrCode();
-  sabores: FirebaseListObservable<any>;
+  saboresRef: FirebaseListObservable<any>;
   pedidos: FirebaseListObservable<any>; 
   user: User = new User();
   loading = true;
   loader;
+  saboresList = [];
+  saboresFilter = [];
 
   constructor(public nav: NavController, af: AngularFire, public alertCtrl: AlertController,
               public toastCtrl: ToastController, public dataService: DataService, public loadingCtrl: LoadingController) {
@@ -42,13 +44,23 @@ export class SalgadasPage {
 
       this.pedidos = af.database.list('/pedidosPorPizzaria/'+this.qrcode.pizzariaID);    
     
-      this.sabores = af.database.list('saboresPorPizzaria/'+this.qrcode.pizzariaID+'/sabores', {
+      this.saboresRef = af.database.list('saboresPorPizzaria/'+this.qrcode.pizzariaID+'/sabores', {
         query: {
           orderByChild: 'tipo_disponivel',
           equalTo: 'true_salgada',
-          }
+          },
+        preserveSnapshot: true
       });
-      this.sabores.subscribe(() => this.loading = false);
+      this.saboresRef.subscribe(snapshots => {
+        this.loading = false;
+
+        let _sabores = [];
+        snapshots.forEach(snapshot => {
+          _sabores.push(snapshot.val());
+        });       
+        this.saboresFilter = _sabores;
+        this.saboresList = _sabores;
+      });
 
     }, error => {
       console.log('getItem: '+error);
@@ -123,5 +135,20 @@ export class SalgadasPage {
     this.dataService.pizzariaNome = this.qrcode.pizzariaNome;
     this.dataService.sabor = _sabor;
     this.nav.push(PizzaDetalhesPage);
+  }
+
+  initializeItems() {
+    this.saboresFilter = this.saboresList; 
+  }
+
+  getItems(ev: any) {    
+    this.initializeItems();
+    let val = ev.target.value;
+
+    if (val && val.trim() != '') {
+      this.saboresFilter = this.saboresFilter.filter((item) => {
+        return (item.descricao.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }    
   }
 }

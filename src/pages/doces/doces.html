@@ -25,8 +25,9 @@
   <div class="center-spinner" *ngIf='loading'>
     <ion-spinner name="bubbles"></ion-spinner>
   </div>
+  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
   <ion-list>
-    <ion-item *ngFor="let sabor of sabores | async">
+    <ion-item *ngFor="let sabor of saboresList">
       <ion-avatar item-left (click)="exibirDetalhes(sabor)">
         <img src="{{sabor.imageURL}}">
       </ion-avatar>
