@@ -1,8 +1,9 @@
+import { DataService } from './../services/data-service';
 import { User } from './../model/user';
 import { FireService } from './../services/fire-service';
 import { QrcodePage } from './../pages/qrcode/qrcode';
 import {Component, Inject} from '@angular/core';
-import { Platform } from 'ionic-angular';
+import { Platform, Events, AlertController } from 'ionic-angular';
 import {ViewChild} from '@angular/core';
 import {StatusBar} from 'ionic-native';
 
@@ -36,6 +37,8 @@ export class MyApp {
   public nav: any;
 
   user: User = new User();
+
+  inicializacao:boolean = true;
 
   public pages = [
     {
@@ -77,31 +80,33 @@ export class MyApp {
   ];
 
   constructor(public platform: Platform, @Inject(FirebaseApp) firebaseApp: firebase.app.App,
-              public fire: FireService) {
+              public fire: FireService, public events: Events, public alertCtrl: AlertController,
+              public data: DataService) {
     firebaseApp.auth().onAuthStateChanged(result =>{
       if(result){
-        this.user = result;
-        this.nav.setRoot(QrcodePage);
+        this.inicializacao = false;
+        if(result.emailVerified == true){
+          this.user = result;        
+          this.nav.setRoot(QrcodePage);
+        }
+        else{
+          this.logout();
+          //this.nav.setRoot(LoginPage);
+        }        
       }
-      else{
+      else if(this.inicializacao){
+        this.inicializacao = false;
         this.nav.setRoot(LoginPage);
       }
     })
     
     platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
     });
   }
-
+  
   openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
-    if(page.title == 'Sair'){
-      this.logout();
-    }
-    else if(page.title == 'Início'){
+    if(page.title == 'Início'){
       this.nav.setRoot(page.component);
     }
     else{
@@ -109,17 +114,33 @@ export class MyApp {
     }
   }
 
-  // view my profile
   viewMyProfile() {
     this.nav.push(UserPage);
   }
 
   logout(){
     this.fire.logout().then(data => { 
-      this.nav.setRoot(LoginPage);
+      if(this.data.createUser){
+        this.showAlert('Confirmação de Cadastro','Foi enviado um link de ativação para seu email.');
+      }
+      else{
+        this.showAlert('Erro de autenticação','Verifique seu endereço de email para confirmar sua conta e liberar o acesso ao aplicativo.');
+      }
+      this.data.createUser = false;
+      //this.events.publish('login-erro', "Verifique seu endereço de email para confirmar sua conta.");
     }, error => {
       console.log('error logout: '+error);
     })
+  }
+
+  //refatorar depois
+  showAlert(titulo:string, mensagem:string){
+    let alert = this.alertCtrl.create({
+      title: ''+titulo,
+      subTitle: ''+mensagem,
+      buttons: ['OK']
+    });
+    alert.present();
   }
   
 }

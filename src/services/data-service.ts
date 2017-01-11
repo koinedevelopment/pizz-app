@@ -8,7 +8,8 @@ export class DataService {
     numeroMesa = '';
     pizzariaNome = '';
     pizzariaID = '';
+    createUser = false;
 
-    constructor() {        
+    constructor() {     
     }
 }

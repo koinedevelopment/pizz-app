@@ -1,9 +1,10 @@
+import { DataService } from './../../services/data-service';
 import { QrcodePage } from './../qrcode/qrcode';
 import { FireService } from './../../services/fire-service';
 import {Component} from '@angular/core';
 import {RegisterPage} from "../register/register";
 import {HomePage} from "../home/home";
-import {NavController, Events, LoadingController, AlertController} from 'ionic-angular';
+import { NavController, Events, LoadingController, AlertController, ToastController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import * as firebase from 'firebase';
 
@@ -20,10 +21,12 @@ import * as firebase from 'firebase';
 export class LoginPage {
 
   loader;
- 
+  email:string = "";
+  senha:string = "";
+
   constructor(public nav: NavController, public fire: FireService, public events: Events,
               public loadingCtrl: LoadingController, public alertCtrl: AlertController,
-              public storage:Storage) {               
+              public storage:Storage, public toastCtrl: ToastController, public data: DataService) {   
   }
 
   ionViewDidLoad() {
@@ -33,25 +36,18 @@ export class LoginPage {
     this.nav.push(RegisterPage);
   }
 
-  login() {
+  loginWithEmailAndPassword(){
+    if(this.email != "" && this.senha != ""){
+      this.fire.loginWithEmailAndPassword(this.email, this.senha);    
+    }
   }
 
   loginWithFacebook(){
-    console.log('loginWithFacebook');
-    /*this.loader = this.loadingCtrl.create({
-      content: "Logando",
-    });
-    this.loader.present();*/
     this.fire.loginWithFacebook();
     
   }
 
   loginWithGoogle(){
-    console.log('loginWithGoogle');
-    /*this.loader = this.loadingCtrl.create({
-      content: "Logando",
-    });
-    this.loader.present();*/
     this.fire.loginWithGoogle();
   }
 }

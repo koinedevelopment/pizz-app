@@ -22,12 +22,12 @@
 
       <ion-item>
         <ion-label stacked>Email</ion-label>
-        <ion-input type="text"></ion-input>
+        <ion-input type="text"[(ngModel)]="email"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label stacked>Senha</ion-label>
-        <ion-input type="password"></ion-input>
+        <ion-input type="password" [(ngModel)]="senha"></ion-input>
       </ion-item>
 
     </ion-list>
@@ -35,7 +35,7 @@
     <p ion-text text-right color="light">Esqueceu a senha?</p>
 
     <div>
-      <button ion-button block color="primary" (click)="login()">
+      <button ion-button block color="primary" (click)="loginWithEmailAndPassword()">
         Entrar
       </button>
 

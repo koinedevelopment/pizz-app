@@ -10,10 +10,10 @@
     <!-- Logo -->
     <div padding text-center>
       <div class="logo primary-bg">
-        <ion-icon name="md-restaurant" color="light"></ion-icon>
+        <ion-icon name="pizza" color="light"></ion-icon>
       </div>
       <h2 color="light">
-        Ionic 2 Restaurant
+        Pizz
       </h2>
     </div>
 
@@ -22,30 +22,30 @@
 
       <ion-item>
         <ion-label stacked>Name</ion-label>
-        <ion-input type="text"></ion-input>
+        <ion-input type="text" [(ngModel)]="nome"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label stacked>Email</ion-label>
-        <ion-input type="text"></ion-input>
+        <ion-input type="text" [(ngModel)]="email"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label stacked>Password</ion-label>
-        <ion-input type="password"></ion-input>
+        <ion-input type="password" [(ngModel)]="senha"></ion-input>
       </ion-item>
 
     </ion-list>
 
     <div margin-top>
       <button ion-button block color="primary" (click)="register()">
-        SIGN UP
+        CADASTRAR
       </button>
     </div>
 
     <!-- Other links -->
     <div text-center margin-top>
-      <span color="light" (click)="login()">I have an account</span>
+      <span color="light" (click)="login()">Já possuo uma conta</span>
     </div>
 
   </div>

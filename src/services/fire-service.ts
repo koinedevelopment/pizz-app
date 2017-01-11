@@ -1,3 +1,4 @@
+import { DataService } from './data-service';
 import { LoginPage } from './../pages/login/login';
 import { Injectable } from "@angular/core";
 import { Events, AlertController } from 'ionic-angular';
@@ -9,7 +10,8 @@ import * as firebase from 'firebase';
 @Injectable()
 export class FireService {
     user: any;
-    constructor(public events: Events, public af: AngularFire){}
+    constructor(public events: Events, public af: AngularFire, public alertCtrl: AlertController,
+                public data: DataService){}
     
     getUser():any{
         return this.user;
@@ -117,10 +119,42 @@ export class FireService {
         });   
     }
 
+    loginWithEmailAndPassword(email:string, senha){
+        firebase.auth().signInWithEmailAndPassword(email, senha).then(result =>{
+        }, error =>{
+            if(error.message == "The password is invalid or the user does not have a password."){
+                //this.events.publish('login-erro', "A senha é inválida ou o usuário não possui senha cadastrada.");
+                this.showAlert('A senha é inválida ou o usuário não possui senha cadastrada.');
+            }
+            else if(error.message == "There is no user record corresponding to this identifier. The user may have been deleted."){
+                //this.events.publish('login-erro', "Nenhum usuário encontrado com este endereço de email.");
+                this.showAlert('Não há registro de usuário correspondente a esse endereço de email.');
+            }
+            else if(error.message == "We have blocked all requests from this device due to unusual activity. Try again later."){
+                //this.events.publish('login-erro', "Nenhum usuário encontrado com este endereço de email.");
+                this.showAlert('Bloqueamos todas as requisições deste dispositivo devido a uma atividade incomum. Tente mais tarde.');
+            }
+            else{
+                //this.events.publish('login-erro', ""+error.message);
+                this.showAlert(error.message);
+            }
+        })        
+    }
+
     logout():firebase.Promise<any> {
         localForage.setItem('qrcode', "").then(result => {
         }, error => {
         })
         return firebase.auth().signOut();
+    }
+
+    //refatorar depois
+    showAlert(mensagem:string){
+        let alert = this.alertCtrl.create({
+            title: 'Erro de autenticação',
+            subTitle: ''+mensagem,
+            buttons: ['OK']
+        });
+        alert.present();
     }
 }
