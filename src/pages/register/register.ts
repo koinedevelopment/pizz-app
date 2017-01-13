@@ -21,31 +21,46 @@ export class RegisterPage {
   nome = "";
   email = "";
   senha = "";
+  repetirSenha = "";
+  erroRepetirSenha = false;
 
   constructor(public nav: NavController, public data: DataService, public alertCtrl: AlertController) {
   }
 
   // register and go to home page
   register() {
-    firebase.auth().createUserWithEmailAndPassword(this.email, this.senha)
-      .then(result =>{
-        result.sendEmailVerification();
-        this.login();
-        this.data.createUser = true;
-      }, error => {
-        if(error.message == 'Password should be at least 6 characters'){
-          alert('A senha deve ter pelo menos 6 caracteres.'); 
-        }
-        else if(error.message == 'The email address is already in use by another account.'){
-          alert('O endereço de email já está em uso por outra conta.'); 
-        }
-        else if(error.message == 'The email address is badly formatted.'){
-          alert('Endereço de email está em um formato inválido.'); 
-        }
-        else{
-          console.log('erro cadastro: '+error);     
-        } 
-      })
+    if(this.senha == this.repetirSenha){
+      this.erroRepetirSenha = false;
+      console.log(this.erroRepetirSenha);
+      firebase.auth().createUserWithEmailAndPassword(this.email, this.senha)
+        .then(result =>{
+          result.sendEmailVerification();         
+          this.data.createUser = true;   
+          this.login();      
+          result.updateProfile({
+            displayName: this.nome
+          }).then(function() {         
+          }, function(error) {
+          });        
+        }, error => {
+          if(error.message == 'Password should be at least 6 characters'){
+            alert('A senha deve ter pelo menos 6 caracteres.'); 
+          }
+          else if(error.message == 'The email address is already in use by another account.'){
+            alert('O endereço de email já está em uso por outra conta.'); 
+          }
+          else if(error.message == 'The email address is badly formatted.'){
+            alert('Endereço de email está em um formato inválido.'); 
+          }
+          else{
+            console.log('erro cadastro: '+error);     
+          } 
+        })
+    }
+    else{
+      this.erroRepetirSenha = true;
+      console.log(this.erroRepetirSenha);
+    }
   }
   
   login() {
