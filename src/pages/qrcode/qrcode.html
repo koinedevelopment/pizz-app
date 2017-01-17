@@ -44,7 +44,12 @@
         </button>
       </ion-col>
     </ion-row>
-
   </ion-card>
 
-</ion-content>
+  <ion-row no-padding>
+      <ion-col text-center>
+        <button ion-button color="dark" (click)="passarQrcode(qrcodeRickPizzaria, qrcodeRickMesa)" round>Teste Rick</button>
+        <button ion-button color="secondary" (click)="passarQrcode(qrcodeNildoPizzaria, qrcodeNildoMesa)" round>Teste Nildo</button>
+      </ion-col>
+    </ion-row>
+  </ion-content>

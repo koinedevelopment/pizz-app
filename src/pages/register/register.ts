@@ -5,6 +5,7 @@ import { NavController, AlertController } from 'ionic-angular';
 import {HomePage} from "../home/home";
 import {LoginPage} from "../login/login";
 import * as firebase from 'firebase';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 /*
  Generated class for the LoginPage page.
@@ -24,7 +25,17 @@ export class RegisterPage {
   repetirSenha = "";
   erroRepetirSenha = false;
 
-  constructor(public nav: NavController, public data: DataService, public alertCtrl: AlertController) {
+  form: FormGroup;
+  submitAttempt: boolean = false;
+
+  constructor(public nav: NavController, public data: DataService, public alertCtrl: AlertController,
+              public formBuilder: FormBuilder) {
+    this.form = formBuilder.group({
+        nome: ['', Validators.compose([Validators.maxLength(60), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
+        email: ['', Validators.compose([Validators.maxLength(60), Validators.required])],
+        senha: ['', Validators.compose([Validators.maxLength(16), Validators.required])],
+        repetirSenha: ['', Validators.compose([Validators.maxLength(16), Validators.required])]
+    });
   }
 
   // register and go to home page
@@ -75,5 +86,18 @@ export class RegisterPage {
           buttons: ['OK']
       });
       alert.present();
+  }
+
+  register2(){
+ 
+    this.submitAttempt = true;
+ 
+    if(!this.form.valid){
+      console.log("error!")
+    } 
+    else {
+        console.log("success!")
+        console.log(this.form.value);
+    }
   }
 }

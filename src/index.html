@@ -12,6 +12,9 @@
   <link rel="manifest" href="assets/manifest.json">
   <meta name="theme-color" content="#4e8ef7">
 
+  <!--meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; img-src 'self' http://s.sachmem.com/ ; connect-src *; frame-src *; media-src *"-->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'; img-src 'self' data: * ; connect-src *; frame-src *; media-src *">
+
   <!-- un-comment this code to enable service worker
   <script>
     if ('serviceWorker' in navigator) {

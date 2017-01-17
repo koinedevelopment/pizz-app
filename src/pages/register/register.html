@@ -19,35 +19,41 @@
 
     <!-- Login form -->
     <ion-list class="list-form" padding>
-      
+      <form [formGroup]="form">
+
       <ion-item>
         <ion-label floating>Nome</ion-label>
-        <ion-input type="text" [(ngModel)]="nome"></ion-input>
+        <ion-input type="text" formControlName="nome"></ion-input>
       </ion-item>
+
+      <div class="erro" *ngIf="!form.controls.nome.valid && submitAttempt">
+          <p>Please enter a valid name.</p>
+      </div>
 
       <ion-item>
         <ion-label floating>Email</ion-label>
-        <ion-input type="text" [(ngModel)]="email"></ion-input>
+        <ion-input type="text" formControlName="email"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label floating>Senha</ion-label>
-        <ion-input type="password" [(ngModel)]="senha"></ion-input>
+        <ion-input type="password" formControlName="senha"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label floating>Repetir Senha</ion-label>
-        <ion-input type="password" [(ngModel)]="repetirSenha"></ion-input>
+        <ion-input type="password" formControlName="repetirSenha"></ion-input>
       </ion-item>
-      <p class="erro" *ngIf="erroRepetirSenha">O campo 'Repetir Senha' precisa ser igual ao campo 'Senha'</p>
+      <p class="erro" *ngIf="erroRepetirSenha">* O campo 'Repetir Senha' precisa ser igual ao campo 'Senha'</p>
 
-      <ion-item>
-      </ion-item>
+      <!--ion-item>
+      </ion-item-->
+      </form>
 
     </ion-list>
 
     <div margin-top>
-      <button ion-button block color="primary" (click)="register()">
+      <button ion-button block color="primary" (click)="register2()">
         CADASTRAR
       </button>
     </div>

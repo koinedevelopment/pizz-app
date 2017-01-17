@@ -1,9 +1,10 @@
+import { QrcodePage } from './../qrcode/qrcode';
 import { PizzaDetalhesPage } from './../pizza-detalhes/pizza-detalhes';
 import { DataService } from './../../services/data-service';
 import { Sabor } from './../../model/sabor';
 import { QrCode } from './../../model/qrcode';
 import { User } from './../../model/user';
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { NavController, AlertController, ToastController, LoadingController } from 'ionic-angular';
 import localForage from "localforage";
 import {AngularFire, FirebaseListObservable} from 'angularfire2';
@@ -31,14 +32,9 @@ export class SalgadasPage {
   saboresFilter = [];
 
   constructor(public nav: NavController, af: AngularFire, public alertCtrl: AlertController,
-              public toastCtrl: ToastController, public dataService: DataService, public loadingCtrl: LoadingController) {
+              public toastCtrl: ToastController, public dataService: DataService, public zone: NgZone) {
 
     localForage.getItem('qrcode').then(result => {
-
-      /*this.loader = this.loadingCtrl.create({
-        //content: "Logando",
-      });
-      this.loader.present();*/
       
       this.qrcode = result;
 
@@ -150,5 +146,31 @@ export class SalgadasPage {
         return (item.descricao.toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
     }    
+  }
+
+  confirmacaoSairMesa() {
+    let confirm = this.alertCtrl.create({
+      title: 'Confirmação',
+      message: 'Deseja mesmo sair da mesa?',
+      buttons: [
+        {
+          text: 'Não',
+          handler: () => {
+          }
+        },
+        {
+          text: 'Sim',
+          handler: () => {
+            localForage.setItem('qrcode', "").then(result => {
+              this.zone.run(() => {
+                this.nav.setRoot(QrcodePage);
+              });
+            }, error => {
+            })
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 }

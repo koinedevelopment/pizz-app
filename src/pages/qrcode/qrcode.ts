@@ -23,6 +23,10 @@ export class QrcodePage {
   _qrcode = {};
   user;
   loader;
+  qrcodeRickPizzaria = "-K_5yYdg_bJ29hxlO7v8";
+  qrcodeRickMesa = "-K_VYPDv8R2fQUnCttpR";
+  qrcodeNildoPizzaria = "-K_4llyY67jDxZ2U0CJs";
+  qrcodeNildoMesa = "-K_Z2rfthCvvBTQu0dpt";
 
   constructor(public nav: NavController, public alertCtrl:AlertController, 
               public zone: NgZone, public af: AngularFire, public loadingCtrl: LoadingController) {   
@@ -75,6 +79,38 @@ export class QrcodePage {
     }, (err) => {
       console.log('BarcodeScanner.scan().then: '+err);
     })    
+  }
+
+  passarQrcode(pizzaria, mesa){
+    console.log('pizzaria: '+pizzaria);
+    console.log('mesa: '+mesa);
+    this.loader = this.loadingCtrl.create({
+      content: "Localizando Mesa",
+    });
+    this.loader.present();  
+    let mesas = firebase.database().ref('/mesasPorPizzaria/'+pizzaria+'/'+mesa);
+    mesas.on('value', snap =>{
+      if(snap.val() != null){
+        this._qrcode = {
+                numeroMesa: snap.val().numeroMesa,
+                pizzariaID: pizzaria,
+                pizzariaNome: snap.val().pizzariaNome
+              };
+        this.qrcode = this._qrcode;
+        localForage.setItem('qrcode', this.qrcode).then(result => {
+                this.loader.dismiss();
+                this.zone.run(() => {
+                    this.nav.setRoot(CardapioPage);
+                });
+              }, error => {
+                console.log('localForage.setItem: '+error);
+              })
+      }
+      else{
+        this.loader.dismiss();
+        alert('Código inválido. Procurar a administração da pizzaria.');
+      }
+    });
   }
 
   showConfirm() {
